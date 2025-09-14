@@ -9,10 +9,7 @@ tracksRouter.get("/", async (req, res, next) => {
     try{
         const filter = req.query.albums ? {albums: req.query.albums} : {};
         if(filter){
-            const tracks = await Track.find(filter).populate({
-                path: 'album',
-                model: 'Album'
-            });
+            const tracks = await Track.find(filter).populate('album', 'name');
             res.json(tracks);
         } else {
             const tracks = await Track.find();
