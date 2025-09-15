@@ -1,5 +1,4 @@
 import express from "express";
-import User from "../models/User";
 import Track from "../models/Tracks";
 import TrackHistory from "../models/TrackHistory";
 
@@ -7,7 +6,7 @@ const trackHistoryRouter = express.Router();
 
 trackHistoryRouter.post('/', async (req, res, next) => {
     try {
-        const token = await User.findOne({token: req.body.token});
+        const token = req.get('Authorization');
 
         if (!token) {
             res.status(401).send({ error: 'Authorization token required' });
@@ -27,7 +26,7 @@ trackHistoryRouter.post('/', async (req, res, next) => {
         }
 
         const trackHistory = new TrackHistory({
-            user: token._id,
+            user: trackId,
             track: track._id,
             dateTime: new Date()
         });
