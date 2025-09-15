@@ -7,6 +7,15 @@ import {randomUUID} from "node:crypto";
 
 const usersRouter = express.Router();
 
+usersRouter.get("/", async (req, res, next) => {
+    try {
+        const users = await User.find();
+        res.send(users);
+    } catch (e) {
+        next (e);
+    }
+})
+
 usersRouter.post("/", async (req, res, next) => {
     const userData: UserFields = {
         username: req.body.username,
