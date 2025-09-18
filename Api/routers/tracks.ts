@@ -25,6 +25,7 @@ tracksRouter.post("/", async (req, res, next) => {
         const album = req.body.album;
         const name = req.body.name;
         const duration = req.body.duration;
+        const number = req.body.number;
 
         const albumId = await Album.findById(album);
         if (!albumId) {
@@ -32,7 +33,7 @@ tracksRouter.post("/", async (req, res, next) => {
             return;
         }
         const newTrack = new Track({
-            album, name, duration
+            album, name, duration, number
         })
         await newTrack.save();
         res.status(200).send(newTrack);
