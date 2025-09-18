@@ -2,8 +2,7 @@ import express from "express";
 import User from "../models/User";
 import {UserFields} from "../types";
 import mongoose from "mongoose";
-import bcrypt from "bcrypt";
-import {randomUUID} from "node:crypto";
+import auth, {RequestWithUser} from "../middleware/auth";
 
 const usersRouter = express.Router();
 
@@ -17,15 +16,16 @@ usersRouter.get("/", async (req, res, next) => {
 })
 
 usersRouter.post("/", async (req, res, next) => {
-    const userData: UserFields = {
+    const userData: Omit<UserFields, 'token'> = {
         username: req.body.username,
-        password: req.body.password,
-        token: randomUUID(),
+        password: req.body.password
     };
 
 
     try {
         const user = new User(userData);
+        user.generateToken();
+
         await user.save();
         res.send(user);
     } catch (error) {
@@ -43,16 +43,21 @@ usersRouter.post("/sessions", async (req, res) => {
         return res.status(404).send({error: "User not found"});
     }
 
-    const isMatch = await bcrypt.compare(req.body.password, user.password);
+    const isMatch = await user.checkPassword(req.body.password);
 
     if (!isMatch) {
         return res.status(400).send({error: "Password does not match"});
     }
 
-    user.token = randomUUID();
+    user.generateToken();
     await user.save();
 
     res.send({message: 'Username and Password is correct', user});
 });
+
+usersRouter.post('/secret',auth, async (req, res) => {
+    const user = (req as RequestWithUser).user;
+    return res.send({message: "Secret message", user});
+})
 
 export default usersRouter;
