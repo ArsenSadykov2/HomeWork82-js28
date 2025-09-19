@@ -20,6 +20,26 @@ tracksRouter.get("/", async (req, res, next) => {
     }
 });
 
+tracksRouter.get("/:id", async (req, res, next) => {
+    try{
+        if(!req.params.id){
+            res.status(404).send("Not Found");
+            return;
+        }
+        const {id} = req.params;
+
+        const track = await Track.find({album: id}).populate("album", "name");
+        if(!track){
+            res.status(404).send("Not Found");
+            return;
+        }
+        res.status(200).send(track);
+    } catch (e){
+        next(e);
+    }
+
+})
+
 tracksRouter.post("/", async (req, res, next) => {
     try {
         const album = req.body.album;
