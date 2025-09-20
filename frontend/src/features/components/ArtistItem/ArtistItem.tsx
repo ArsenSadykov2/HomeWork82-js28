@@ -1,4 +1,4 @@
-import {Card, CardActions, CardHeader, CardMedia, Grid, IconButton} from "@mui/material";
+import {Card, CardActions, CardHeader, CardMedia, Grid, IconButton, useTheme} from "@mui/material";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import {Link} from 'react-router-dom';
 import NotFoundPic from '../../../assets/images/NotFoundPic.png';
@@ -11,6 +11,7 @@ interface Props {
 }
 
 const ArtistItem: React.FC<Props> = ({id, name,image}) => {
+    const theme = useTheme();
     let cartImage = NotFoundPic;
     console.log(id)
     if(image) {
@@ -28,8 +29,20 @@ const ArtistItem: React.FC<Props> = ({id, name,image}) => {
                 />
                 <CardHeader title={name}/>
                 <CardActions>
-                    <IconButton component={Link} to={'/albums/' + id}>
-                        <ArrowForwardIcon/>
+                    <IconButton
+                        component={Link}
+                        to={'/albums/' + id}
+                        sx={{
+                            backgroundColor: theme.palette.primary.main,
+                            color: 'white',
+                            '&:hover': {
+                                backgroundColor: theme.palette.primary.dark,
+                                transform: 'scale(1.1)'
+                            },
+                            transition: 'all 0.2s ease-in-out'
+                        }}
+                    >
+                        <ArrowForwardIcon />
                     </IconButton>
                 </CardActions>
             </Card>
