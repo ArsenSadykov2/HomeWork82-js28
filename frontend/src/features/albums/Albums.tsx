@@ -24,9 +24,11 @@ const Albums = () => {
         <Grid container direction="column" spacing={2}>
             <Grid container justifyContent="space-between" alignItems="center">
                 <Grid>
-                    <Typography variant="h4">
-                        Albums
-                    </Typography>
+                    <Grid>
+                        {albums.length > 0 && albums[0].artist && (
+                            <Typography variant='h4'>{albums[0].artist.name}</Typography>
+                        )}
+                    </Grid>
                 </Grid>
             </Grid>
 

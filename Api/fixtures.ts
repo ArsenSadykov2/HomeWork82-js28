@@ -82,27 +82,27 @@ const run = async () => {
 
     const livingThings = await Track.create({
         album: lpSecondAlbum._id,
-        name: 'Pushing me Away',
+        name: 'Lost in the Echo',
         duration: '3:13',
         number: 1
     }, {
         album: lpSecondAlbum._id,
-        name: 'A Place for my Head',
+        name: 'In My Remains',
         duration: '3:00',
         number: 2
     }, {
         album: lpSecondAlbum._id,
-        name: 'With you',
+        name: 'Castle of Glass',
         duration: '3:11',
         number: 3
     }, {
         album: lpSecondAlbum._id,
-        name: 'Crawling',
+        name: 'Powerless',
         duration: '3:13',
         number: 4
     }, {
         album: lpSecondAlbum._id,
-        name: 'Runaway',
+        name: 'Until it Breaks',
         duration: '3:13',
         number: 5
     });
