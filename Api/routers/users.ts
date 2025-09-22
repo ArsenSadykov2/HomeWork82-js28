@@ -28,11 +28,11 @@ usersRouter.post("/", async (req, res, next) => {
 
         await user.save();
         res.send(user);
-    } catch (error) {
-        if(error instanceof mongoose.Error.ValidationError) {
-            return res.status(400).send({error: error.message});
+    } catch (e) {
+        if(e instanceof mongoose.Error.ValidationError) {
+            return res.status(400).send(e);
         }
-        next(error);
+        next(e);
     }
 });
 
