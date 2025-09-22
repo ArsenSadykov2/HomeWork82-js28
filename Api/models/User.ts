@@ -20,7 +20,10 @@ const UserSchema = new Schema<UserFields, UserModel, UserMethods>({
         required: true,
         unique: true,
         validate: {
-            validator: async (value: string): Promise<boolean> => {
+            validator: async function (value: string): Promise<boolean>{
+                if (!this.isModified('username')) {
+                    return true;
+                }
                 const user = await User.findOne({username: value});
                 return Boolean(!user);
             },

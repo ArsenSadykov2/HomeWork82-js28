@@ -21,7 +21,11 @@ const initialState: UserState = {
 const usersSlice = createSlice({
     name: "users",
     initialState,
-    reducers: {},
+    reducers: {
+        clearLoginError: (state) => {
+            state.loginError = null;
+        },
+    },
     extraReducers: builder => {
         builder
             .addCase(register.pending, (state) => {
@@ -60,3 +64,4 @@ const usersSlice = createSlice({
 
 export const usersReducer = usersSlice.reducer;
 export const {selectUser, selectRegisterLoading, selectRegisterError, selectLoginLoading, selectLoginError} = usersSlice.selectors
+export const { clearLoginError} = usersSlice.actions;

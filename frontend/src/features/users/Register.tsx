@@ -50,6 +50,7 @@ const Register = () => {
             <Box component={'form'} onSubmit={onSubmitForm} sx={{my: 3, maxWidth: '400px', width: '100%'}}>
                 <Stack spacing={2}>
                     <TextField
+                        required
                         label="Username"
                         name="username"
                         value={state.username}
@@ -59,6 +60,7 @@ const Register = () => {
                         helperText={getFieldError('username')}
                     />
                     <TextField
+                        required
                         type="password"
                         label="Password"
                         name="password"
