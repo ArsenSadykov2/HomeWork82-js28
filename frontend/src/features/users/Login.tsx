@@ -1,15 +1,16 @@
 import {NavLink, useNavigate} from "react-router-dom";
-import {Avatar, Box, Button, Link, Stack, TextField, Typography} from "@mui/material";
+import {Alert, Avatar, Box, Button, Link, Stack, TextField, Typography} from "@mui/material";
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
-import {selectRegisterError} from "./usersSlice.ts";
+import {selectLoginError, selectLoginLoading} from "./usersSlice.ts";
 import {type ChangeEvent, type FormEvent, useState} from "react";
 import type {LoginMutation} from "../../types";
-import {register} from "./usersThunks.ts";
+import {login} from "./usersThunks.ts";
 
 const Login = () => {
     const dispatch = useAppDispatch();
-    const error = useAppSelector(selectRegisterError);
+    const error = useAppSelector(selectLoginError);
+    const loading = useAppSelector(selectLoginLoading);
     const navigate = useNavigate();
 
     const [state, setState] = useState<LoginMutation>({
@@ -26,7 +27,7 @@ const Login = () => {
         e.preventDefault();
 
         try{
-            await dispatch(register(state)).unwrap();
+            await dispatch(login(state)).unwrap();
             navigate("/");
         } catch (e) {
             // error  message
@@ -42,6 +43,13 @@ const Login = () => {
             <Typography component={'h1'} variant={'h5'}>
                 Login In
             </Typography>
+            {
+                error && (
+                    <Alert severity={"error"} sx={{mt: 3}}>
+                        {error.error}
+                    </Alert>
+                )
+            }
             <Box component={'form'} onSubmit={onSubmitForm} sx={{my: 3, maxWidth: '400px', width: '100%'}}>
                 <Stack spacing={2}>
                     <TextField
@@ -64,6 +72,7 @@ const Login = () => {
                         fullWidth
                         variant="contained"
                         sx={{mb: 2}}
+                        loading={loading}
                     >
                         Login In
                     </Button>

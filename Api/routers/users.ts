@@ -52,7 +52,7 @@ usersRouter.post("/sessions", async (req, res) => {
     user.generateToken();
     await user.save();
 
-    res.send({message: 'Username and Password is correct', user});
+    res.send(user);
 });
 
 usersRouter.post('/secret',auth, async (req, res) => {

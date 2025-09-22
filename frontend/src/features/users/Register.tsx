@@ -4,12 +4,13 @@ import {Avatar, Box, Button, Link, Stack, TextField, Typography} from "@mui/mate
 import LockOutlineIcon from '@mui/icons-material/LockOutline';
 import {NavLink, useNavigate} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
-import {selectRegisterError} from "./usersSlice.ts";
+import {selectRegisterError, selectRegisterLoading} from "./usersSlice.ts";
 import {register} from "./usersThunks.ts";
 
 const Register = () => {
     const dispatch = useAppDispatch();
     const error = useAppSelector(selectRegisterError);
+    const loading = useAppSelector(selectRegisterLoading);
     const navigate = useNavigate();
 
     const [state, setState] = useState<RegisterMutation>({
@@ -72,6 +73,7 @@ const Register = () => {
                         fullWidth
                         variant="contained"
                         sx={{mb: 2}}
+                        loading={loading}
                     >
                         Sign Up
                     </Button>
