@@ -7,6 +7,7 @@ import Artists from './features/artists/Artists';
 import Albums from './features/albums/Albums';
 import Tracks from './features/tracks/Tracks';
 import Register from "./features/users/Register.tsx";
+import Login from "./features/users/Login.tsx";
 
 const App = () => (
     <>
@@ -25,6 +26,7 @@ const App = () => (
                     <Route path="/albums/:id" element={<Albums/>}/>
                     <Route path="/tracks/:id" element={<Tracks/>}/>
                     <Route path="/register" element={<Register/>}/>
+                    <Route path="/login" element={<Login/>}/>
                     <Route path="*" element={<Typography variant="h4">Not Found Page</Typography>}/>
                 </Routes>
             </Container>
