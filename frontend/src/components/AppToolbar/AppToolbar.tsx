@@ -1,4 +1,4 @@
-import {AppBar, Container, styled, Toolbar, Typography} from '@mui/material';
+import {AppBar, Button, styled, Toolbar, Typography} from '@mui/material';
 import { NavLink } from 'react-router-dom';
 
 
@@ -16,12 +16,11 @@ const Link = styled(NavLink)({
 const AppToolbar = () => {
     return (
         <AppBar position="sticky" sx={{mb: 2}}>
-            <Toolbar>
-                <Container maxWidth="xl">
+            <Toolbar sx={{justifyContent: 'space-between'}}>
                     <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
                         <Link to="/">Music Store</Link>
                     </Typography>
-                </Container>
+                    <Button component={NavLink} to={'/register'} color={'inherit'}>Sign Up</Button>
             </Toolbar>
         </AppBar>
     );
