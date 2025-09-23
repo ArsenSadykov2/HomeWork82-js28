@@ -22,8 +22,8 @@ const usersSlice = createSlice({
     name: "users",
     initialState,
     reducers: {
-        clearLoginError: (state) => {
-            state.loginError = null;
+            logoutUser: (state) => {
+                state.user = null;
         },
     },
     extraReducers: builder => {
@@ -63,5 +63,5 @@ const usersSlice = createSlice({
 });
 
 export const usersReducer = usersSlice.reducer;
-export const {selectUser, selectRegisterLoading, selectRegisterError, selectLoginLoading, selectLoginError} = usersSlice.selectors
-export const { clearLoginError} = usersSlice.actions;
+export const {logoutUser} = usersSlice.actions;
+export const {selectUser, selectRegisterLoading, selectRegisterError, selectLoginLoading, selectLoginError} = usersSlice.selectors;

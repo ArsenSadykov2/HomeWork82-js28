@@ -2,7 +2,6 @@ import express from "express";
 import User from "../models/User";
 import {UserFields} from "../types";
 import mongoose from "mongoose";
-import auth, {RequestWithUser} from "../middleware/auth";
 
 const usersRouter = express.Router();
 
@@ -36,28 +35,48 @@ usersRouter.post("/", async (req, res, next) => {
     }
 });
 
-usersRouter.post("/sessions", async (req, res) => {
-    const user = await User.findOne({username: req.body.username});
+usersRouter.post("/sessions", async (req, res, next) => {
+    try{
+        const user = await User.findOne({username: req.body.username});
 
-    if (!user) {
-        return res.status(404).send({error: "Username or Password is wrong"});
+        if (!user) {
+            return res.status(404).send({error: "Username or Password is wrong"});
+        }
+        console.log(user);
+        const isMatch = await user.checkPassword(req.body.password);
+
+        if (!isMatch) {
+            return res.status(400).send({error: "Username or Password is wrong"});
+        }
+
+        user.generateToken();
+        await user.save();
+
+        console.log(user);
+
+        res.send(user);
+    } catch (e) {
+        next(e);
     }
-
-    const isMatch = await user.checkPassword(req.body.password);
-
-    if (!isMatch) {
-        return res.status(400).send({error: "Username or Password is wrong"});
-    }
-
-    user.generateToken();
-    await user.save();
-
-    res.send(user);
 });
 
-usersRouter.post('/secret',auth, async (req, res) => {
-    const user = (req as RequestWithUser).user;
-    return res.send({message: "Secret message", user});
+usersRouter.delete("/sessions", async (req, res, next) => {
+    try{
+        const token = req.get('Authorization');
+        if(!token) {
+            return res.status(204).send();
+        }
+        const user = await User.findOne({token});
+        if(!user) {
+            return res.status(204).send();
+        }
+        user.generateToken();
+        user.save();
+
+        res.status(204).send();
+    } catch (e) {
+        next(e);
+    }
 })
 
 export default usersRouter;
